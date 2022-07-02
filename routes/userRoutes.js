@@ -1,6 +1,6 @@
 const userRoutes = require("express")();
-const { getUsers,createUser } = require("../controllers/userController");
+const { getUsers, register } = require("../controllers/userController");
 
-userRoutes.route("/").get(getUsers).post(createUser);
+userRoutes.route("/").get(getUsers).post(register);
 
 module.exports = { userRoutes };
