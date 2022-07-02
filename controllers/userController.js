@@ -1,7 +1,26 @@
+const User = require("../models/User");
+
 const getUsers = async (req, res) => {
-    const User = require("../models/User");
     try {
+        const user = new User
+        // generate new salt
+        const salt = await user.generateSalt()
+        console.log({ salt })
+        // passsword encypted
+        const password = await user.generatePassword('Mohammed', salt)
+        console.log({ password })
+        // create new user
+        const newUser = await User.create({
+            username: 'Mohammmed',
+            password,
+            salt
+        })
+        console.log({ newUser: user })
+
+        // get all users
         const users = await User.find({});
+
+        // response
         res.status(200).json({
             success: true,
             msg: "get users success",
