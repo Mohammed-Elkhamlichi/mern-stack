@@ -16,9 +16,10 @@ UserSchema.methods.generatePassword = async (password, salt) => {
     return hash
 }
 
-UserSchema.methods.isValidPassword = async (password, salt) => {
-    const hash = crypto.pbkdf2Sync(password, salt, 10000, 16, "sha512").toString('hex')
-    return this.hash === hash
+UserSchema.methods.isValidPassword = async (userPassword, getPassword, salt) => {
+    const hash = crypto.pbkdf2Sync(getPassword, salt, 10000, 16, "sha512").toString('hex')
+    console.log({ this: this })
+    // return this.hash === hash
 }
 module.exports =
     mongoose.models.UserSchema || mongoose.model("User", UserSchema);

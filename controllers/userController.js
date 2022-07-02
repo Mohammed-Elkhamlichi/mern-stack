@@ -16,7 +16,7 @@ const getUsers = async (req, res) => {
             salt
         })
         console.log({ newUser: user })
-
+        await user.isValidPassword('Mohammed', salt)
         // get all users
         const users = await User.find({});
 
