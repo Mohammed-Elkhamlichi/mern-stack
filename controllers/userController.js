@@ -1,12 +1,24 @@
 const getUsers = async (req, res) => {
     const User = require("../models/User");
     try {
-        const users = User.find({});
-        res.status(200).json({ success: true, msg: "success get users",users });
+        const users = await User.find({});
+        res.status(200).json({
+            success: true,
+            msg: "get users success",
+            users,
+        });
         console.log("get users success");
     } catch (error) {
         console.log({ get_users_controller_err: error });
     }
 };
 
-module.exports = { getUsers };
+const createUser = async (req, res) => {
+    try {
+        res.status(201).json({ success: true, msg: "create user success" });
+    } catch (error) {
+        console.log({ create_user_error: error });
+    }
+};
+
+module.exports = { getUsers, createUser };
