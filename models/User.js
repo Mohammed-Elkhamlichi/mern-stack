@@ -11,15 +11,14 @@ UserSchema.methods.generateSalt = async () => {
     return salt
 }
 
-UserSchema.methods.generatePassword = async (password, salt) => {
-    const hash = crypto.pbkdf2Sync(password, salt, 10000, 16, "sha512").toString('hex')
-    return hash
+UserSchema.methods.encryptedPassword = async (passwordProvider, generateSalt) => {
+    const encryptedPass = crypto.pbkdf2Sync(passwordProvider, generateSalt, 10000, 16, "sha512").toString('hex')
+    return encryptedPass
 }
 
-UserSchema.methods.isValidPassword = async (userPassword, getPassword, salt) => {
-    const hash = crypto.pbkdf2Sync(getPassword, salt, 10000, 16, "sha512").toString('hex')
-    console.log({ this: this })
-    // return this.hash === hash
+UserSchema.methods.isValidPassword = async (passwordProvider, passwordStored, saltStored) => {
+    const encryptedPass = crypto.pbkdf2Sync(passwordProvider, saltStored, 10000, 16, "sha512").toString('hex')
+    return passwordStored === encryptedPass
 }
 module.exports =
     mongoose.models.UserSchema || mongoose.model("User", UserSchema);
