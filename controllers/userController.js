@@ -26,13 +26,17 @@ const register = async (req, res) => {
         username = username.trim()
         password = password.trim()
         console.log({ username, password })
+
         // check if the credentials not empty
         if (username !== undefined && password !== undefined && username !== "" && password !== "") {
+
             // check if the user exist
             const isUserExist = await User.findOne({ username })
             if (isUserExist === null) {
+
                 // generate new salt
                 const salt = await user.generateSalt()
+                
                 // passsword encypted
                 const encryptedPassword = await user.encryptedPassword(password, salt)
                 // create new user
@@ -44,12 +48,14 @@ const register = async (req, res) => {
                 res.status(400).json({ success: false, msg: 'User ALredy Exist' })
             }
         } else {
-            res.status(400).json({ success: false, msg: 'Username && password not provided' })
+            res.status(400).json({ success: false, msg: 'Username or password not provided' })
         }
     } catch (error) {
         console.log({ create_user_error: error });
     }
 };
+
+
 // login user method
 const login = async (req, res) => {
     try {
@@ -75,33 +81,35 @@ const login = async (req, res) => {
                 const users = await User.find({});
                 res.status(201).json({ success: true, msg: "login success", users });
             }else{
-                res.status(201).json({ success: false, msg: "username or password incorrects" });
+                res.status(201).json({ success: false, msg: "username or password incorrect" });
 
             }
             } else {
                 res.status(400).json({ success: false, msg: 'account with this username not exist' })
             }
         } else {
-            res.status(400).json({ success: false, msg: 'Username && password not provided' })
+            res.status(400).json({ success: false, msg: 'Username or password not provided' })
         }
     } catch (error) {
         console.log({ login_user_error: error })
     }
 }
 
+
 // delete User Method
 const deleteUser = async (req, res) => {
     try {
-        res.status(200).json({ success: true, msg: 'delete user seccuss' })
+        res.status(200).json({ success: true, msg: 'delete user success' })
     } catch (error) {
         console.log({ delete_user_error: error })
     }
 }
 
+
 // Update User Method
 const updateUser = async (req, res) => {
      try {
-        res.status(200).json({ success: true, msg: 'delete user seccuss' })
+        res.status(200).json({ success: true, msg: 'delete user success' })
     } catch (error) {
         console.log({ delete_user_error: error })
     }}
